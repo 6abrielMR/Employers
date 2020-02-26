@@ -10,7 +10,9 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import vortex.solutions.employers.Presenter.Interface.LoginImpl;
 import vortex.solutions.employers.R;
+import vortex.solutions.employers.View.Fragment.FailureMessagge;
 import vortex.solutions.employers.View.Fragment.Register;
+import vortex.solutions.employers.View.Fragment.SuccessMessagge;
 
 public class Login extends AppCompatActivity implements LoginImpl {
 
@@ -35,12 +37,14 @@ public class Login extends AppCompatActivity implements LoginImpl {
     }
 
     @Override
-    public void SuccesMessagge() {
-        Toast.makeText(this, "Registrado Correctamente", Toast.LENGTH_SHORT).show();
+    public void SuccesMessagge(String messagge) {
+        SuccessMessagge successMessagge = new SuccessMessagge(this, messagge);
+        successMessagge.show(getSupportFragmentManager(), getLocalClassName());
     }
 
     @Override
-    public void FailureMessagge() {
-        Toast.makeText(this, "Falló al registrarse", Toast.LENGTH_SHORT).show();
+    public void FailureMessagge(String messagge) {
+        FailureMessagge failureMessagge = new FailureMessagge(this, messagge);
+        failureMessagge.show(getSupportFragmentManager(), getLocalClassName());
     }
 }

@@ -20,6 +20,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import vortex.solutions.employers.Presenter.ManageTasks;
 import vortex.solutions.employers.R;
+import vortex.solutions.employers.View.Activity.Login;
 
 public class Register extends DialogFragment {
 
@@ -42,20 +43,16 @@ public class Register extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(currentActivity);
         View v = currentActivity.getLayoutInflater().inflate(R.layout.register, null);
 
-        final TextInputLayout lEmail = v.findViewById(R.id.register_layout_edit_email);
-        final TextInputLayout lPassword = v.findViewById(R.id.register_layout_edit_password);
         final TextInputEditText email = v.findViewById(R.id.register_edit_email);
         final TextInputEditText password = v.findViewById(R.id.register_edit_password);
 
         builder.setView(v)
+                .setCancelable(false)
                 .setPositiveButton(R.string.register_true, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String emailV = validateField(email);
                         String passV = validateField(password);
-
-                        lEmail.setError(null);
-                        lPassword.setError(null);
 
                         if (!emailV.equalsIgnoreCase("")){
                             if (!passV.equalsIgnoreCase("")) {
@@ -69,12 +66,11 @@ public class Register extends DialogFragment {
                                 createUser.execute(parametersRegister);
                             } else {
                                 Log.d(TAG, "onClick: Error password null");
-                                Toast.makeText(currentActivity, "Error Contraseña Vacía",
-                                        Toast.LENGTH_SHORT).show();
+                                ((Login) currentActivity).FailureMessagge("Error Contraseña Vacío");
                             }
                         } else {
                             Log.d(TAG, "onClick: Error email null");
-                            Toast.makeText(currentActivity, "Error Correo Electrónico Vacío", Toast.LENGTH_SHORT).show();
+                            ((Login) currentActivity).FailureMessagge("Error Correo Electrónico Vacío");
                         }
                     }
                 })

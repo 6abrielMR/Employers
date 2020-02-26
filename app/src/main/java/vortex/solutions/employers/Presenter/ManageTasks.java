@@ -55,9 +55,9 @@ public class ManageTasks {
         @Override
         protected void onPostExecute(ArrayList<Object> response) {
             if ((boolean) response.get(0))
-                ((Login) response.get(1)).SuccesMessagge();
+                ((Login) response.get(1)).SuccesMessagge("Registro Exitoso");
             else
-                ((Login) response.get(1)).FailureMessagge();
+                ((Login) response.get(1)).FailureMessagge("Error al Registrar");
         }
     }
 
