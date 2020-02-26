@@ -8,6 +8,7 @@
     tools:context=".View.Activity.Dashboard">
 
     <LinearLayout
+        android:id="@+id/dasboard_opcs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
@@ -83,6 +84,22 @@
             android:textStyle="bold" />
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/dasboard_btn_logout"
+        android:layout_width="65dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/dasboard_opcs"
+        android:layout_marginStart="26dp"
+        android:layout_marginTop="36dp"
+        android:background="@drawable/btn_delete_user"
+        android:drawableStart="@drawable/v_off"
+        android:focusable="true"
+        android:padding="16dp"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:onClick="Logout"/>
 
     <TextView
         android:layout_width="match_parent"
