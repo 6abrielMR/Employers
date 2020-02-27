@@ -12,6 +12,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import vortex.solutions.employers.R;
 import vortex.solutions.employers.View.Fragment.CreateUser;
+import vortex.solutions.employers.View.Fragment.DeleteUser;
 import vortex.solutions.employers.View.Fragment.ListUsers;
 import vortex.solutions.employers.View.Fragment.UpdateUser;
 
@@ -61,6 +62,16 @@ public class Dashboard extends AppCompatActivity {
             public void run() {
                 UpdateUser updateUser = new UpdateUser(Dashboard.this);
                 updateUser.show(getSupportFragmentManager(), getLocalClassName());
+            }
+        });
+    }
+
+    public void deleteUser(View view) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                DeleteUser deleteUser = new DeleteUser(Dashboard.this);
+                deleteUser.show(getSupportFragmentManager(), getLocalClassName());
             }
         });
     }

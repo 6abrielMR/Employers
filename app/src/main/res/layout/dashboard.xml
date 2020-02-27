@@ -77,6 +77,7 @@
             android:background="@drawable/btn_delete_user"
             android:drawableStart="@drawable/v_delete_user"
             android:focusable="true"
+            android:onClick="deleteUser"
             android:paddingStart="26dp"
             android:paddingTop="10dp"
             android:paddingEnd="0dp"

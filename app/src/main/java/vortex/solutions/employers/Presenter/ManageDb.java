@@ -30,6 +30,7 @@ public class ManageDb {
     //constants
     private static final String TAG = "ManageDb";
     private static final String EMPLOYERS = "employers";
+    private static final String EMPLOYERS_DELETED = "employersDeleted";
     private static final String NOTHING = "nothing";
     private static final String NAMES = "names";
     private static final String LASTNAMES = "lastnames";
@@ -42,6 +43,9 @@ public class ManageDb {
     private static final String SALARY = "salary";
     private static final String TIMESTAMP = "timesTamp";
     private static final String LASTKNOWNCHANGE = "lastKnownChange";
+
+    //vars
+    private User employer;
 
     //vars
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -170,6 +174,71 @@ public class ManageDb {
                     }
                 });
 
+    }
+
+    public void deleteUser(final String id) {
+        db.collection(EMPLOYERS)
+                .document(id)
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        setEmployerForDelete(new User(documentSnapshot.getString(NAMES),
+                                documentSnapshot.getString(LASTNAMES),
+                                documentSnapshot.getString(TYPEID),
+                                documentSnapshot.getString(ID),
+                                documentSnapshot.getString(NUM1),
+                                documentSnapshot.getString(NUM2),
+                                documentSnapshot.getString(NUM3),
+                                documentSnapshot.getString(EMAIL),
+                                documentSnapshot.getString(SALARY),
+                                documentSnapshot.getString(TIMESTAMP),
+                                documentSnapshot.getString(LASTKNOWNCHANGE)));
+                        onlyDeleteEmployer(documentSnapshot.getString(ID));
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        e.printStackTrace();
+                    }
+                });
+    }
+
+    private void onlyDeleteEmployer(String id) {
+        db.collection(EMPLOYERS)
+                .document(id)
+                .delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "onSuccess: Delted");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        e.printStackTrace();
+                    }
+                });
+    }
+
+    private void setEmployerForDelete(User employerDeleted) {
+        db.collection(EMPLOYERS_DELETED)
+                .document(employerDeleted.getId())
+                .set(employerDeleted)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "onSuccess: saved deleted");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        e.printStackTrace();
+                    }
+                });
     }
 
     private String getTimestamp(){
