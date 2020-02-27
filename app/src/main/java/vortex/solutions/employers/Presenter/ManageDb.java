@@ -8,9 +8,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -21,6 +23,7 @@ import java.util.TimeZone;
 
 import vortex.solutions.employers.Model.User;
 import vortex.solutions.employers.View.Fragment.ListUsers;
+import vortex.solutions.employers.View.Fragment.UpdateUser;
 
 public class ManageDb {
 
@@ -56,7 +59,7 @@ public class ManageDb {
         db.collection(EMPLOYERS)
                 .document(String.valueOf(id))
                 .set(new User(names, lastnames, typeId, id, num1, num2, num3, email, salary,
-                        getTimestamp(), getTimestamp()))
+                        getTimestamp(), getTimestamp()), SetOptions.merge())
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -101,6 +104,34 @@ public class ManageDb {
                         } else {
                             Log.d(TAG, "onComplete: Error Get Employers");
                         }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        e.printStackTrace();
+                    }
+                });
+    }
+
+    public void getEmployer(final UpdateUser context, String idEmployer) {
+        db.collection(EMPLOYERS)
+                .document(idEmployer)
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        context.loadEmployer(new User(documentSnapshot.getString(NAMES),
+                                documentSnapshot.getString(LASTNAMES),
+                                documentSnapshot.getString(TYPEID),
+                                documentSnapshot.getString(ID),
+                                documentSnapshot.getString(NUM1),
+                                documentSnapshot.getString(NUM2),
+                                documentSnapshot.getString(NUM3),
+                                documentSnapshot.getString(EMAIL),
+                                documentSnapshot.getString(SALARY),
+                                documentSnapshot.getString(TIMESTAMP),
+                                documentSnapshot.getString(LASTKNOWNCHANGE)));
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

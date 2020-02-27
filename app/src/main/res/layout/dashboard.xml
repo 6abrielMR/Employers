@@ -60,6 +60,7 @@
             android:background="@drawable/btn_update_user"
             android:drawableStart="@drawable/v_update_user"
             android:focusable="true"
+            android:onClick="updateUser"
             android:paddingStart="26dp"
             android:paddingTop="10dp"
             android:paddingEnd="0dp"

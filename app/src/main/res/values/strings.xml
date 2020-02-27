@@ -26,4 +26,5 @@
     <string name="salary">Salario Mensual</string>
     <string name="send">Crear Usuario</string>
     <string name="id_txt">Identificado con</string>
+    <string name="update_user">Actualizar Empleado</string>
 </resources>
