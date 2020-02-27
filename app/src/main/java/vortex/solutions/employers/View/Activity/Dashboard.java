@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 
 import vortex.solutions.employers.R;
+import vortex.solutions.employers.View.Fragment.CreateUser;
 
 public class Dashboard extends AppCompatActivity {
 
@@ -31,6 +32,16 @@ public class Dashboard extends AppCompatActivity {
 
     private void init() {
         mAuth = FirebaseAuth.getInstance();
+    }
+
+    public void createUser(View view) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                CreateUser createUser = new CreateUser(Dashboard.this);
+                createUser.show(getSupportFragmentManager(), getLocalClassName());
+            }
+        });
     }
 
     public void Logout(View view) {

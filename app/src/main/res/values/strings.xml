@@ -16,4 +16,17 @@
     <string name="register_true">Resgistrar</string>
     <string name="cancel">Cancelar</string>
     <string name="success">Correcto!</string>
+    <string name="new_user">Nuevo Usuario</string>
+    <string name="names">Nombres</string>
+    <string name="lastnames">Apellidos</string>
+    <string name="id"># Identificación</string>
+    <string name="num1">Número de Contacto 1</string>
+    <string name="num2">Número de Contacto 2</string>
+    <string name="num3">Número de Contacto 3</string>
+    <string name="salary">Salario Mensual</string>
+    <string name="send">Crear Usuario</string>
+    <string-array name="typesIds">
+        <item>CC</item>
+        <item>Nit</item>
+    </string-array>
 </resources>

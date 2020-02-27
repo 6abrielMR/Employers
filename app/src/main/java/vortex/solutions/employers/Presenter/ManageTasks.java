@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import vortex.solutions.employers.View.Activity.Login;
+import vortex.solutions.employers.View.Fragment.CreateUser;
 
 public class ManageTasks {
 
@@ -134,6 +135,67 @@ public class ManageTasks {
                     !field.getText().toString().equals(""))
                 return field.getText().toString();
             else return "";
+        }
+    }
+
+
+    public static class ValidateCreateUser extends AsyncTask<Object, Void, ArrayList<Object>> {
+
+        @Override
+        protected ArrayList<Object> doInBackground(Object... objects) {
+
+            ArrayList<Object> paremetersCreateUser = new ArrayList<>();
+            ArrayList fields = (ArrayList) objects[1];
+            int validate = validateFields((String) fields.get(0), (String) fields.get(1),
+                    (String) fields.get(3), (String) fields.get(8));
+
+            if (validate == 0) {
+                paremetersCreateUser.add(objects[0]);
+                paremetersCreateUser.add(true);
+                paremetersCreateUser.add(validate);
+                paremetersCreateUser.add(fields);
+            } else {
+                paremetersCreateUser.add(objects[0]);
+                paremetersCreateUser.add(false);
+                paremetersCreateUser.add(validate);
+                paremetersCreateUser.add(fields);
+            }
+
+            return paremetersCreateUser;
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<Object> response) {
+            ArrayList fields = (ArrayList) response.get(3);
+            if (!(boolean) response.get(1)) {
+                ((CreateUser) response.get(0)).stateFields((int) response.get(2));
+            } else {
+                ManageDb db = new ManageDb();
+                db.createUser((String) fields.get(0), (String) fields.get(1),
+                        (String) fields.get(2), (String) fields.get(3), (String) fields.get(4),
+                        (String) fields.get(5), (String) fields.get(6), (String) fields.get(7),
+                        (String) fields.get(8));
+            }
+        }
+
+        private int validateFields(String field1, String field2, String field3, String field8) {
+            if (!(field1.trim().equalsIgnoreCase(""))) {
+                if (!(field2.trim().equalsIgnoreCase(""))) {
+                    if (!(field3.trim().equalsIgnoreCase(""))) {
+                        if (!(field8.trim().equalsIgnoreCase(""))) {
+                            return 0;
+                        } else {
+                            return 4;
+                        }
+                    } else {
+                        return 3;
+                    }
+                } else {
+                    return 2;
+                }
+            } else {
+                return 1;
+            }
         }
     }
 

@@ -24,6 +24,7 @@
             android:background="@drawable/btn_create_user"
             android:drawableStart="@drawable/v_create_user"
             android:focusable="true"
+            android:onClick="createUser"
             android:paddingStart="26dp"
             android:paddingTop="10dp"
             android:paddingEnd="0dp"
@@ -95,11 +96,11 @@
         android:background="@drawable/btn_delete_user"
         android:drawableStart="@drawable/v_off"
         android:focusable="true"
+        android:onClick="Logout"
         android:padding="16dp"
         android:textColor="@android:color/white"
         android:textSize="18sp"
-        android:textStyle="bold"
-        android:onClick="Logout"/>
+        android:textStyle="bold" />
 
     <TextView
         android:layout_width="match_parent"
