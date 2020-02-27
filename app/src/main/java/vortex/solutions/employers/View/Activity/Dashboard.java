@@ -12,6 +12,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import vortex.solutions.employers.R;
 import vortex.solutions.employers.View.Fragment.CreateUser;
+import vortex.solutions.employers.View.Fragment.ListUsers;
 
 public class Dashboard extends AppCompatActivity {
 
@@ -27,7 +28,6 @@ public class Dashboard extends AppCompatActivity {
         setContentView(R.layout.dashboard);
 
         init();
-
     }
 
     private void init() {
@@ -40,6 +40,16 @@ public class Dashboard extends AppCompatActivity {
             public void run() {
                 CreateUser createUser = new CreateUser(Dashboard.this);
                 createUser.show(getSupportFragmentManager(), getLocalClassName());
+            }
+        });
+    }
+
+    public void listUsers(View view) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ListUsers listUsers = new ListUsers(Dashboard.this);
+                listUsers.show(getSupportFragmentManager(), getLocalClassName());
             }
         });
     }

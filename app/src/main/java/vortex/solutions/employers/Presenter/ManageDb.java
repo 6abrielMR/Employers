@@ -4,16 +4,23 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
 import vortex.solutions.employers.Model.User;
+import vortex.solutions.employers.View.Fragment.ListUsers;
 
 public class ManageDb {
 
@@ -21,6 +28,17 @@ public class ManageDb {
     private static final String TAG = "ManageDb";
     private static final String EMPLOYERS = "employers";
     private static final String NOTHING = "nothing";
+    private static final String NAMES = "names";
+    private static final String LASTNAMES = "lastnames";
+    private static final String TYPEID = "typeId";
+    private static final String ID = "id";
+    private static final String NUM1 = "num1";
+    private static final String NUM2 = "num2";
+    private static final String NUM3 = "num3";
+    private static final String EMAIL = "email";
+    private static final String SALARY = "salary";
+    private static final String TIMESTAMP = "timesTamp";
+    private static final String LASTKNOWNCHANGE = "lastKnownChange";
 
     //vars
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -53,6 +71,44 @@ public class ManageDb {
                     }
                 });
 
+    }
+
+    public void getListUsers(final ListUsers context) {
+        final ArrayList<User> users = new ArrayList<>();
+
+        db.collection(EMPLOYERS)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot employer : task.getResult()) {
+                                Log.d(TAG, "onComplete: " + employer.getString("names"));
+                                users.add(new User(employer.getString(NAMES),
+                                        employer.getString(LASTNAMES),
+                                        employer.getString(TYPEID),
+                                        employer.getString(ID),
+                                        employer.getString(NUM1),
+                                        employer.getString(NUM2),
+                                        employer.getString(NUM3),
+                                        employer.getString(EMAIL),
+                                        employer.getString(SALARY),
+                                        employer.getString(TIMESTAMP),
+                                        employer.getString(LASTKNOWNCHANGE)));
+                            }
+
+                            context.showList(users);
+                        } else {
+                            Log.d(TAG, "onComplete: Error Get Employers");
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        e.printStackTrace();
+                    }
+                });
     }
 
     private String getTimestamp(){

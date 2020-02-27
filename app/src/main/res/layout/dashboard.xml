@@ -42,6 +42,7 @@
             android:background="@drawable/btn_read_user"
             android:drawableStart="@drawable/v_read_user"
             android:focusable="true"
+            android:onClick="listUsers"
             android:paddingStart="26dp"
             android:paddingTop="10dp"
             android:paddingEnd="0dp"

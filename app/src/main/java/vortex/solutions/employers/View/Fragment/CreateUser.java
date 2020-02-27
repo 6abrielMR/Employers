@@ -61,6 +61,7 @@ public class CreateUser extends DialogFragment implements CreateUserImpl {
         spnType.setAdapter(adapterType);
 
         builder.setView(v)
+                .setCancelable(false)
                 .setPositiveButton(R.string.create_employer, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
