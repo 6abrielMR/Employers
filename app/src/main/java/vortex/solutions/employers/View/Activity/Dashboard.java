@@ -10,13 +10,16 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+import vortex.solutions.employers.Presenter.Interface.DashboardImpl;
 import vortex.solutions.employers.R;
 import vortex.solutions.employers.View.Fragment.CreateUser;
 import vortex.solutions.employers.View.Fragment.DeleteUser;
+import vortex.solutions.employers.View.Fragment.FailureMessagge;
 import vortex.solutions.employers.View.Fragment.ListUsers;
+import vortex.solutions.employers.View.Fragment.SuccessMessagge;
 import vortex.solutions.employers.View.Fragment.UpdateUser;
 
-public class Dashboard extends AppCompatActivity {
+public class Dashboard extends AppCompatActivity implements DashboardImpl {
 
     //constants
     private static final String TAG = "Dashboard";
@@ -81,5 +84,26 @@ public class Dashboard extends AppCompatActivity {
         Log.d(TAG, "logout: Logout");
         Toast.makeText(this, "Sesión Cerrada", Toast.LENGTH_SHORT).show();
         startActivity(new Intent(this, Login.class));
+    }
+
+    @Override
+    public void showStateProccess(boolean state, final String messagge) {
+        if (state) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    SuccessMessagge successMessagge = new SuccessMessagge(Dashboard.this, messagge);
+                    successMessagge.show(getSupportFragmentManager(), getLocalClassName());
+                }
+            });
+        } else {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    FailureMessagge failureMessagge = new FailureMessagge(Dashboard.this, messagge);
+                    failureMessagge.show(getSupportFragmentManager(), getLocalClassName());
+                }
+            });
+        }
     }
 }

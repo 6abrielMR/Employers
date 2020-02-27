@@ -14,11 +14,12 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
 import com.google.android.material.textfield.TextInputEditText;
-import vortex.solutions.employers.Presenter.Interface.DeleteUserImpl;
+
 import vortex.solutions.employers.Presenter.ManageDb;
 import vortex.solutions.employers.R;
+import vortex.solutions.employers.View.Activity.Dashboard;
 
-public class DeleteUser extends DialogFragment implements DeleteUserImpl {
+public class DeleteUser extends DialogFragment {
 
     //constants
     private static final String TAG = "Register";
@@ -41,11 +42,11 @@ public class DeleteUser extends DialogFragment implements DeleteUserImpl {
 
         builder.setView(v)
                 .setCancelable(false)
-                .setPositiveButton(R.string.update_employer, new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.delete_employer, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (!validateField(idEmployer).equalsIgnoreCase("")) {
-                            ManageDb manageDb = new ManageDb();
+                            ManageDb manageDb = new ManageDb((Dashboard) currentActivity);
                             manageDb.deleteUser(idEmployer.getText().toString());
                         }
                     }
@@ -65,23 +66,5 @@ public class DeleteUser extends DialogFragment implements DeleteUserImpl {
                 !field.getText().toString().equals(""))
             return field.getText().toString();
         else return "";
-    }
-
-    @Override
-    public void stateFields(int field) {
-        switch (field) {
-            case 1:
-                Toast.makeText(currentActivity, "Nombres Vacíos", Toast.LENGTH_SHORT).show();
-                break;
-            case 2:
-                Toast.makeText(currentActivity, "Apellidos Vacíos", Toast.LENGTH_SHORT).show();
-                break;
-            case 3:
-                Toast.makeText(currentActivity, "Identificación Vacía", Toast.LENGTH_SHORT).show();
-                break;
-            case 4:
-                Toast.makeText(currentActivity, "Salario Vacío", Toast.LENGTH_SHORT).show();
-                break;
-        }
     }
 }

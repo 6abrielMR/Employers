@@ -29,6 +29,7 @@ import vortex.solutions.employers.Presenter.ListUsersAdapter;
 import vortex.solutions.employers.Presenter.ManageDb;
 import vortex.solutions.employers.Presenter.ManageTasks;
 import vortex.solutions.employers.R;
+import vortex.solutions.employers.View.Activity.Dashboard;
 import vortex.solutions.employers.View.Activity.Login;
 
 public class ListUsers extends DialogFragment implements ListUsersImpl {
@@ -54,7 +55,7 @@ public class ListUsers extends DialogFragment implements ListUsersImpl {
         View v = currentActivity.getLayoutInflater().inflate(R.layout.list_users, null);
 
         listUsers = v.findViewById(R.id.listusers_recycler);
-        ManageDb db = new ManageDb();
+        ManageDb db = new ManageDb((Dashboard) currentActivity);
         db.getListUsers(ListUsers.this);
 
         builder.setView(v)
@@ -71,5 +72,10 @@ public class ListUsers extends DialogFragment implements ListUsersImpl {
 
         listUsers.setLayoutManager(layoutManager);
         listUsers.setAdapter(mAdapter);
+    }
+
+    @Override
+    public Dashboard getMainContext() {
+        return ((Dashboard) currentActivity);
     }
 }

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">vortex</string>
+    <string name="app_name">Employers</string>
     <string name="employers">Empleados</string>
     <string name="create_employer">Crear Nuevo Empleado</string>
     <string name="read_employer">Listar Empleados</string>

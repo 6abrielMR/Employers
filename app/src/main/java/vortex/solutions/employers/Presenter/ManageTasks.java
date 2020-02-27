@@ -171,7 +171,7 @@ public class ManageTasks {
             if (!(boolean) response.get(1)) {
                 ((CreateUser) response.get(0)).stateFields((int) response.get(2));
             } else {
-                ManageDb db = new ManageDb();
+                ManageDb db = new ManageDb(((CreateUser) response.get(0)).getMainContext());
                 db.createUser((String) fields.get(0), (String) fields.get(1),
                         (String) fields.get(2), (String) fields.get(3), (String) fields.get(4),
                         (String) fields.get(5), (String) fields.get(6), (String) fields.get(7),
@@ -231,7 +231,7 @@ public class ManageTasks {
             if (!(boolean) response.get(1)) {
                 ((UpdateUser) response.get(0)).stateFields((int) response.get(2));
             } else {
-                ManageDb db = new ManageDb();
+                ManageDb db = new ManageDb(((UpdateUser) response.get(0)).getMainContext());
                 db.updateUser((String) fields.get(0), (String) fields.get(1),
                         (String) fields.get(2), (String) fields.get(3), (String) fields.get(4),
                         (String) fields.get(5), (String) fields.get(6), (String) fields.get(7),

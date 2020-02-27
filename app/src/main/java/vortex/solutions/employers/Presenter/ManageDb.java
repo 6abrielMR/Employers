@@ -22,6 +22,7 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 import vortex.solutions.employers.Model.User;
+import vortex.solutions.employers.View.Activity.Dashboard;
 import vortex.solutions.employers.View.Fragment.ListUsers;
 import vortex.solutions.employers.View.Fragment.UpdateUser;
 
@@ -45,10 +46,13 @@ public class ManageDb {
     private static final String LASTKNOWNCHANGE = "lastKnownChange";
 
     //vars
+    private Dashboard context;
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private User employer;
 
-    //vars
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    public ManageDb(Dashboard context) {
+        this.context = context;
+    }
 
     public void createUser(String names, String lastnames,
                            String typeId, String id, String num1,
@@ -67,6 +71,7 @@ public class ManageDb {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
+                        context.showStateProccess(true, "Empleado Creado Correctamente");
                         Log.d(TAG, "onSuccess: Registrado");
                     }
                 })
@@ -75,6 +80,7 @@ public class ManageDb {
                     public void onFailure(@NonNull Exception e) {
                         Log.d(TAG, "onSuccess: No Registrado");
                         e.printStackTrace();
+                        context.showStateProccess(false, "Error al Registrar");
                     }
                 });
 
@@ -107,13 +113,18 @@ public class ManageDb {
                             context.showList(users);
                         } else {
                             Log.d(TAG, "onComplete: Error Get Employers");
+                            (context.getMainContext()).showStateProccess(false,
+                                    "Error al Listar Empleados");
                         }
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
+                        Log.d(TAG, "onFailure: Error response get Employers");
                         e.printStackTrace();
+                        (context.getMainContext()).showStateProccess(false,
+                                "Error al Obtener Empleados");
                     }
                 });
     }
@@ -141,7 +152,10 @@ public class ManageDb {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
+                        Log.d(TAG, "onFailure: Error to getEmployer - UpdateEmployer");
                         e.printStackTrace();
+                        (context.getMainContext()).showStateProccess(false,
+                                "Error al Obtener Empleado");
                     }
                 });
     }
@@ -163,14 +177,16 @@ public class ManageDb {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        Log.d(TAG, "onSuccess: Registrado");
+                        Log.d(TAG, "onSuccess: Actualizado");
+                        context.showStateProccess(true, "Empleado Actualizado");
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.d(TAG, "onSuccess: No Registrado");
+                        Log.d(TAG, "onSuccess: No Actualizado");
                         e.printStackTrace();
+                        context.showStateProccess(false, "Error al Actualizar");
                     }
                 });
 
@@ -200,7 +216,9 @@ public class ManageDb {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
+                        Log.d(TAG, "onFailure: Error al Eliminar");
                         e.printStackTrace();
+                        context.showStateProccess(false, "Error al Eliminar");
                     }
                 });
     }
@@ -218,7 +236,9 @@ public class ManageDb {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
+                        Log.d(TAG, "onFailure: Error to Delete Employer");
                         e.printStackTrace();
+                        context.showStateProccess(false, "Error al Eliminar");
                     }
                 });
     }
@@ -236,7 +256,9 @@ public class ManageDb {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
+                        Log.d(TAG, "onFailure: Error to Send Employer");
                         e.printStackTrace();
+                        context.showStateProccess(false, "Error al Eliminar");
                     }
                 });
     }

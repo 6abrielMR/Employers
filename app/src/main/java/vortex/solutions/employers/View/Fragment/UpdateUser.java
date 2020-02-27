@@ -28,6 +28,7 @@ import vortex.solutions.employers.Presenter.Interface.UpdateUserImpl;
 import vortex.solutions.employers.Presenter.ManageDb;
 import vortex.solutions.employers.Presenter.ManageTasks;
 import vortex.solutions.employers.R;
+import vortex.solutions.employers.View.Activity.Dashboard;
 import vortex.solutions.employers.View.Activity.Login;
 
 public class UpdateUser extends DialogFragment implements UpdateUserImpl {
@@ -79,7 +80,7 @@ public class UpdateUser extends DialogFragment implements UpdateUserImpl {
         btnFind.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ManageDb db = new ManageDb();
+                ManageDb db = new ManageDb((Dashboard) currentActivity);
                 db.getEmployer(UpdateUser.this, idEmployer.getText().toString());
             }
         });
@@ -135,17 +136,22 @@ public class UpdateUser extends DialogFragment implements UpdateUserImpl {
     public void stateFields(int field) {
         switch (field) {
             case 1:
-                Toast.makeText(currentActivity, "Nombres Vacíos", Toast.LENGTH_SHORT).show();
+                ((Dashboard) currentActivity).showStateProccess(false, "Nombres Vacíos");
                 break;
             case 2:
-                Toast.makeText(currentActivity, "Apellidos Vacíos", Toast.LENGTH_SHORT).show();
+                ((Dashboard) currentActivity).showStateProccess(false, "Apellidos Vacíos");
                 break;
             case 3:
-                Toast.makeText(currentActivity, "Identificación Vacía", Toast.LENGTH_SHORT).show();
+                ((Dashboard) currentActivity).showStateProccess(false, "Identificación Vacía");
                 break;
             case 4:
-                Toast.makeText(currentActivity, "Salario Vacío", Toast.LENGTH_SHORT).show();
+                ((Dashboard) currentActivity).showStateProccess(false, "Salario Vacío");
                 break;
         }
+    }
+
+    @Override
+    public Dashboard getMainContext() {
+        return ((Dashboard) currentActivity);
     }
 }

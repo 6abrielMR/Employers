@@ -26,6 +26,7 @@ import java.util.Arrays;
 import vortex.solutions.employers.Presenter.Interface.CreateUserImpl;
 import vortex.solutions.employers.Presenter.ManageTasks;
 import vortex.solutions.employers.R;
+import vortex.solutions.employers.View.Activity.Dashboard;
 import vortex.solutions.employers.View.Activity.Login;
 
 public class CreateUser extends DialogFragment implements CreateUserImpl {
@@ -89,17 +90,22 @@ public class CreateUser extends DialogFragment implements CreateUserImpl {
     public void stateFields(int field) {
         switch (field) {
             case 1:
-                Toast.makeText(currentActivity, "Nombres Vacíos", Toast.LENGTH_SHORT).show();
+                ((Dashboard) currentActivity).showStateProccess(false, "Nombres Vacíos");
                 break;
             case 2:
-                Toast.makeText(currentActivity, "Apellidos Vacíos", Toast.LENGTH_SHORT).show();
+                ((Dashboard) currentActivity).showStateProccess(false, "Apellidos Vacíos");
                 break;
             case 3:
-                Toast.makeText(currentActivity, "Identificación Vacía", Toast.LENGTH_SHORT).show();
+                ((Dashboard) currentActivity).showStateProccess(false, "Identificación Vacía");
                 break;
             case 4:
-                Toast.makeText(currentActivity, "Salario Vacío", Toast.LENGTH_SHORT).show();
+                ((Dashboard) currentActivity).showStateProccess(false, "Salario Vacío");
                 break;
         }
+    }
+
+    @Override
+    public Dashboard getMainContext() {
+        return ((Dashboard) currentActivity);
     }
 }
