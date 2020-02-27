@@ -5,5 +5,6 @@ import vortex.solutions.employers.Model.User;
 public interface UpdateUserImpl {
 
     void loadEmployer(User user);
+    void stateFields(int field);
 
 }

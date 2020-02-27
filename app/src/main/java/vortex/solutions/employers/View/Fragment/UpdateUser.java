@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ScrollView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -75,21 +76,22 @@ public class UpdateUser extends DialogFragment implements UpdateUserImpl {
         final Spinner spnType = v.findViewById(R.id.updateuser_spn);
         spnType.setAdapter(adapterType);
 
-        builder.setView(v)
-                .setCancelable(false);
-
         btnFind.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!validateField(idEmployer).equals("")) {
-                    ManageDb db = new ManageDb();
-                    db.getEmployer(UpdateUser.this, idEmployer.getText().toString());
+                ManageDb db = new ManageDb();
+                db.getEmployer(UpdateUser.this, idEmployer.getText().toString());
+            }
+        });
 
-                    builder.setPositiveButton(R.string.update_employer, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            ManageTasks.ValidateCreateUser validateCreateUser = new ManageTasks.ValidateCreateUser();
-                            validateCreateUser.execute(UpdateUser.this,
+        builder.setView(v)
+                .setCancelable(false)
+                .setPositiveButton(R.string.update_employer, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (!validateField(idEmployer).equalsIgnoreCase("")){
+                            ManageTasks.ValidateUpdateUser validateUpdateUser = new ManageTasks.ValidateUpdateUser();
+                            validateUpdateUser.execute(UpdateUser.this,
                                     new ArrayList<>(Arrays.asList(names.getText().toString(),
                                             lastnames.getText().toString(), spnType.getSelectedItem().toString(),
                                             id.getText().toString(),
@@ -97,29 +99,14 @@ public class UpdateUser extends DialogFragment implements UpdateUserImpl {
                                             num3.getText().toString(), email.getText().toString(),
                                             salary.getText().toString())));
                         }
-                    })
-                            .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    Log.d(TAG, "onClick: Cancel create user");
-                                }
-                            });
-                } else {
-                    builder.setPositiveButton(R.string.update_employer, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-
-                        }
-                    })
-                            .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    Log.d(TAG, "onClick: Cancel create user");
-                                }
-                            });
-                }
-            }
-        });
+                    }
+                })
+                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Log.d(TAG, "onClick: Cancel create user");
+                    }
+                });
 
         return builder.create();
     }
@@ -142,5 +129,23 @@ public class UpdateUser extends DialogFragment implements UpdateUserImpl {
         email.setText(user.getEmail());
         salary.setText(user.getSalary());
         mainContent.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void stateFields(int field) {
+        switch (field) {
+            case 1:
+                Toast.makeText(currentActivity, "Nombres Vacíos", Toast.LENGTH_SHORT).show();
+                break;
+            case 2:
+                Toast.makeText(currentActivity, "Apellidos Vacíos", Toast.LENGTH_SHORT).show();
+                break;
+            case 3:
+                Toast.makeText(currentActivity, "Identificación Vacía", Toast.LENGTH_SHORT).show();
+                break;
+            case 4:
+                Toast.makeText(currentActivity, "Salario Vacío", Toast.LENGTH_SHORT).show();
+                break;
+        }
     }
 }
